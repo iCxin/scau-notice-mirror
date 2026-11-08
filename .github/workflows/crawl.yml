@@ -1,0 +1,61 @@
+name: 每日抓取通知
+
+on:
+  schedule:
+    # 每天 UTC 22:00（北京时间次日 06:00）运行
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "全量抓取历史列表（首次或补历史时勾选）"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: crawl
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 抓取通知并生成索引
+        env:
+          # 可选：校内成员可配置本人授权会话，抓取主站通知全文；未配置时自动降级
+          SCAU_COOKIE: ${{ secrets.SCAU_COOKIE }}
+        run: |
+          if [ "${{ github.event.inputs.full }}" = "true" ]; then
+            python -m crawler.run --full
+          else
+            python -m crawler.run
+          fi
+
+      - name: 提交更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data
+          if git diff --cached --quiet; then
+            echo "没有新内容，跳过提交"
+          else
+            git commit -m "chore: 更新通知镜像 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+          fi

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="华南农业大学通知公告镜像检索：主站、信息公开、水利与土木工程学院每日自动归档，支持全文搜索。">
+<title>华农通知镜像 · 全文检索</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5c37'/%3E%3Ctext x='16' y='22' font-size='16' fill='%23fff' text-anchor='middle' font-family='serif'%3E农%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">农</div>
+      <div class="brand-text">
+        <h1>华农通知镜像</h1>
+        <p>华南农业大学通知公告 · 每日自动归档</p>
+      </div>
+    </div>
+    <div class="header-meta" id="headerMeta">数据加载中…</div>
+  </div>
+
+  <div class="wrap search-wrap">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 20 20" aria-hidden="true">
+        <circle cx="8.2" cy="8.2" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12.6 12.6 L17 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <input id="q" type="search" placeholder="搜索标题或正文，如：奖学金、停电、报名" autocomplete="off" spellcheck="false" aria-label="搜索通知">
+      <button id="clearBtn" class="clear-btn" type="button" hidden>清空</button>
+    </div>
+    <div class="hot-terms" id="hotTerms">
+      <span>试试：</span>
+      <button type="button" data-term="奖学金">奖学金</button>
+      <button type="button" data-term="停电">停电</button>
+      <button type="button" data-term="报名">报名</button>
+      <button type="button" data-term="公示">公示</button>
+      <button type="button" data-term="选课">选课</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="filters" aria-label="筛选">
+    <div class="filter-row">
+      <span class="filter-label">来源</span>
+      <div class="chips" id="sourceChips"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">时间</span>
+      <div class="chips" id="rangeChips">
+        <button type="button" class="chip active" data-range="all">全部</button>
+        <button type="button" class="chip" data-range="7">近 7 天</button>
+        <button type="button" class="chip" data-range="30">近 30 天</button>
+        <button type="button" class="chip" data-range="365">近一年</button>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="contentOnly">
+        <span>仅看有正文</span>
+      </label>
+      <select id="sort" aria-label="排序方式">
+        <option value="date">最新优先</option>
+        <option value="relevance">相关度优先</option>
+      </select>
+    </div>
+  </section>
+
+  <div class="result-head">
+    <div id="resultCount" class="result-count">数据加载中…</div>
+    <div id="activeQuery" class="active-query"></div>
+  </div>
+
+  <ul class="results" id="list"></ul>
+
+  <div class="empty" id="empty" hidden>
+    <div class="empty-mark">∅</div>
+    <p id="emptyText">没有找到匹配的通知</p>
+    <p class="empty-tip">换个关键词，或放宽来源与时间筛选</p>
+  </div>
+
+  <div class="more-wrap">
+    <button id="moreBtn" class="more-btn" type="button" hidden>加载更多</button>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>数据来源：<a href="https://www.scau.edu.cn/" target="_blank" rel="noopener noreferrer">华南农业大学</a> ·
+      <a href="https://xxgk.scau.edu.cn/" target="_blank" rel="noopener noreferrer">信息公开</a> ·
+      <a href="https://wcce.scau.edu.cn/" target="_blank" rel="noopener noreferrer">水利与土木工程学院</a></p>
+    <p class="footer-note">本站为非官方镜像，仅用于便捷检索。通知以原站发布为准；标注“需登录”的通知正文仅校内可见。</p>
+    <p class="footer-note" id="footerMeta"></p>
+  </div>
+</footer>
+
+<dialog id="detail" class="detail">
+  <div class="detail-head">
+    <div class="detail-meta" id="detailMeta"></div>
+    <button class="detail-close" id="detailClose" type="button" aria-label="关闭">×</button>
+  </div>
+  <div class="detail-body" id="detailBody"></div>
+</dialog>
+
+<noscript><p style="padding:24px;text-align:center">本站需要启用 JavaScript 才能搜索。</p></noscript>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
